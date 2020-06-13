@@ -1,0 +1,52 @@
+@author: MariaPaz
+"""
+
+import pandas as pd 
+import numpy as np 
+import seaborn as sns
+import matplotlib.pyplot as plt 
+
+corona_dataset_csv = pd.read_csv(r'covid_19_data.csv')
+columnsdrop= ['SNo','Last Update']
+corona_dataset_csv.drop(columnsdrop, axis=1, inplace = True)
+
+todrop =['Deaths','Recovered']
+confirmed_data = corona_dataset_csv.drop(todrop, axis=1)
+confirmed = confirmed_data.pivot_table(index=["Country/Region"],columns="ObservationDate",values='Confirmed').reset_index()
+confirmed = confirmed.groupby('Country/Region').sum()
+confirmed.loc["Ecuador"].plot()
+confirmed.loc["Poland"].plot()
+
+countries = list(confirmed.index)
+max_infection_rates = []
+for country in countries :
+    max_infection_rates.append(confirmed.loc[country].diff().max())
+confirmed['max infection rate'] = max_infection_rates
+confirmed_rate = pd.DataFrame(confirmed['max infection rate'])
+confirmed_rate.head()
+
+'getting world happiness report' 
+
+world_happiness_report = pd.read_csv(r'world_happiness_report.csv')
+drop = ['Logged GDP per capita','Standard error of ladder score', 'upperwhisker', 'lowerwhisker', 'Freedom to make life choices', 'Generosity', 'Perceptions of corruption', 
+        'Ladder score in Dystopia']
+world_happiness_report.drop(drop, axis=1, inplace=True)
+drop1 = ['Ladder score', 'Social support','Healthy life expectancy',
+        'Explained by: Generosity', 'Explained by: Perceptions of corruption', 'Dystopia + residual','Regional indicator']
+world_happiness_report.drop(drop1, axis=1, inplace=True)
+
+world_happiness_report.set_index(['Country name'],inplace=True)
+
+'join both data sets'
+data = world_happiness_report.join(confirmed_rate).copy()
+
+'correlations'
+# it is representing the currelation between every two columns of our dataset
+table_correlation = data.corr()
+
+'Plotting GDP vs maximum Infection rate'
+x = data['Explained by: Log GDP per capita']
+y = data['max infection rate']
+sns.scatterplot(x,np.log(y))
+
+sns.regplot(x,np.log(y))
