@@ -6,3 +6,4 @@ the data related to the cumulative number of confirmed cases and deaths, per day
 Also, I used another dataset of various life factors, scored by the people living in each country around the globe.  
 I merged these two datasets to see if there is any relationship between the spread of the virus in a country and how 
 happy people are, living in that country.
+The results are presented in the file: Infographic - Visualization of Results
