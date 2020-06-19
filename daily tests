@@ -1,0 +1,42 @@
+import pandas as pd  
+
+corona_dataset_csv = pd.read_csv(r'/Users/MariaPaz/Desktop/covid19_data.csv')
+to_drop = ['SNo','Last Update','Recovered']
+
+# confirmed_data = corona_dataset_csv.drop(to_drop, axis=1)
+# confirmed = confirmed_data.pivot_table(index=["Country/Region"],columns="ObservationDate",values='Confirmed').reset_index()
+# confirmed = confirmed.groupby('Country/Region').sum()
+
+# countries = list(confirmed.index)
+# infection_rates = []
+# for country in countries :
+#     infection_rates.append(confirmed.loc[country].median())
+# confirmed['infection rate'] = infection_rates
+# confirmed_rate = pd.DataFrame(confirmed['infection rate'])
+# confirmed_rate.head()
+
+# daily_tests_csv = pd.read_csv(r'/Users/MariaPaz/Desktop/tests.csv')
+# dailytests = daily_tests_csv.pivot_table(index=["Entity"],columns="Date", values="Daily tests per thousand people (7-day smoothed) (tests per thousand)").reset_index()
+# dailytests = dailytests.groupby("Entity").sum()
+
+# entity = list(dailytests.index)
+# tests_rates = []
+# for country in entity:
+#     tests_rates.append(dailytests.loc[country].diff().max())
+# dailytests['testing rate'] = tests_rates
+# tests_rates = pd.DataFrame(dailytests['testing rate'])
+# tests_rates.head()
+
+todrop =['Confirmed','Recovered', 'SNo','Last Update']
+deaths_data = corona_dataset_csv.drop(todrop, axis=1)
+deaths = deaths_data.pivot_table(index=["Country/Region"],columns="ObservationDate",values='Deaths').reset_index()
+deaths = deaths.groupby('Country/Region').sum()
+
+
+countries = list(deaths.index)
+max_deaths_rates = []
+for country in countries :
+    max_deaths_rates.append(deaths.loc[country].median())
+deaths['max deaths rate'] = max_deaths_rates
+deaths_rate = pd.DataFrame(deaths['max deaths rate'])
+deaths_rate.head()
