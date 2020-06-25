@@ -7,3 +7,4 @@ Also, I used another dataset of various life factors, scored by the people livin
 I merged these two datasets to see if there is any relationship between the spread of the virus in a country and how 
 happy people are, living in that country.
 The results are presented in the file: Infographic - Visualization of Results and Covid simulation PL vs EC.mov
+Finally, I have used Prophet to forecast the infections in Ecuador and Poland. These results are presented in the file Forecasting EC-PL.
